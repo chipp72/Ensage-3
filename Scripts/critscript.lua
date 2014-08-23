@@ -1,9 +1,8 @@
 -- 100% critical strike. Made by Staskkk. It DOESN'T work with CRYSTALYS or DAEDALUS and with fast attack, sorry.
 
 -- Config
-hotkey = "F"
-x = 50
-y = 30
+hotkey = "7"
+x = 5y = 33
 
 -- Code
 activated = false

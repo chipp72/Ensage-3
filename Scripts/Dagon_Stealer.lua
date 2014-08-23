@@ -1,4 +1,4 @@
-require("libs.Utils")
+﻿require("libs.Utils")
 require("libs.ScriptConfig")
 
 config = ScriptConfig.new()
@@ -6,10 +6,8 @@ config:SetParameter("Hotkey", "48", config.TYPE_HOTKEY)
 config:Load()
 
 local key =  config.Hotkey
-local xx = client.screenSize.x/300 
-local yy = client.screenSize.y/1.55
-
-local activated = true 
+local xx = client.screenSize.x/6 
+local yy = client.screenSize.y/1.1elocal activated = true 
 local sleep = 250
 local icon = drawMgr:CreateRect(xx,yy,36,24,0x000000ff,drawMgr:GetTextureId("NyanUI/items/dagon")) icon.visible = false
 local rect = drawMgr:CreateRect(xx-1,yy-1,26,25,0xFFFFFF90,true) rect.visible = false

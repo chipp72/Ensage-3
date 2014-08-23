@@ -6,9 +6,8 @@ config:Load()
 
 local sleep = 0
 local toggleKey = config.Hotkey
-local activated,move = false,false
-local xx,yy = 180,80
-local spellList = {}
+local activated,move = true,false
+local xx,yy = 300,60local spellList = {}
 local spells = {}
 local myFont = drawMgr:CreateFont("manabarsFont","Arial",14,500)
 local text = drawMgr:CreateText(0,0,0xFFFFFFff,"Range Display",myFont)

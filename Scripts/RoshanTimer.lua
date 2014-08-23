@@ -1,6 +1,5 @@
-xPosition,yPosition = 220,5
-xPositionN,yPositionN = 220,20
-myFont = drawMgr:CreateFont("Roshancheg","Arial",13,400)
+xPosition,yPosition = 170,2
+xPositionN,yPositionN = 170,17myFont = drawMgr:CreateFont("Roshancheg","Arial",13,400)
 StatusText = drawMgr:CreateText(xPosition,yPosition,0xFFFFFFFF,"",myFont);
 InstructionTextToSpawn = drawMgr:CreateText(xPositionN,yPositionN,0xff0000ff,"Time, to respawn - To complete full respawn",myFont);
 InstructionTextSpawn = drawMgr:CreateText(xPositionN,yPositionN,0x00ff00ff,"Begun respawn time - To complete full respawn",myFont);
