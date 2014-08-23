@@ -89,7 +89,7 @@ function ssCheck()
 end
 
 function Key(msg, code)
-	if msg ~= KEY_UP or client.chat then return end
+	if msg ~= KEY_UP or client.chat or client.console then return end
 	if code == menu and HUD then 
 		if HUD:IsClosed() then
 			HUD:Open()
@@ -316,7 +316,7 @@ class 'MyHero'
 
 	function MyHero:Hit(target)
 		if target.team ~= self.heroEntity.team then
-			if enablemodifiers then
+			if enablemodifiers and not target:IsMagicImmune() then
 				if self.heroEntity.classId == CDOTA_Unit_Hero_Clinkz then
 					local searinga = self.heroEntity:GetAbility(2)
 					if searinga.level > 0 and self.heroEntity.mana > 10 then
@@ -510,8 +510,6 @@ function Close()
 	myhero = nil
 	victim = nil
 	myId = nil
-	
-	SaveSettings()
 	
 	if HUD then
 		HUD:Close()	

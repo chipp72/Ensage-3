@@ -5,13 +5,12 @@ config:SetParameter("Active", "N", config.TYPE_HOTKEY)
 config:Load()
 
 local toggleKey   = config.Active
-local disableKey  = config.UseDisableKey
 local reg         = false
 local activ       = true
 local monitor     = client.screenSize.x/1600
 local F15         = drawMgr:CreateFont("F15","Tahoma",15*monitor,550*monitor)
 local F14         = drawMgr:CreateFont("F14","Tahoma",14*monitor,550*monitor) 
-local statusText  = drawMgr:CreateText(10*monitor,260*monitor,-1,"(" .. string.char(toggleKey) .. ") Auto Medallion: On",F14) statusText.visible = false
+local statusText  = drawMgr:CreateText(10*monitor,245*monitor,-1,"(" .. string.char(toggleKey) .. ") Auto Ethereal: On",F14) statusText.visible = false
 
 local hotkeyText
 if string.byte("A") <= toggleKey and toggleKey <= string.byte("Z") then
@@ -25,28 +24,30 @@ function Key(msg,code)
 	if IsKeyDown(toggleKey) then
 		activ = not activ
 		if activ then
-			statusText.text = "(" .. hotkeyText .. ") Auto Medallion: On"
+			statusText.text = "(" .. hotkeyText .. ") Auto Ethereal: On"
 		else
-			statusText.text = "(" .. hotkeyText .. ") Auto Medallion: Off"
+			statusText.text = "(" .. hotkeyText .. ") Auto Ethereal: Off"
 		end
 	end
 end
 
 function Tick(tick)
-	if not SleepCheck() then return end	Sleep(30)
+	if not IsIngame() or not SleepCheck() then return end Sleep(30)
 	local me = entityList:GetMyHero()
-	if not (me and activ) then return end
+	if not me then return end	
+	if not activ then return end	
+	local eth = me:FindItem("item_ethereal_blade")
+	if not eth then return end
 	if me.alive and not me:IsChanneling() then
-		local moc     = me:FindItem("item_medallion_of_courage")
-		if moc then
-			statusText.visible = true
-		end
+
+		statusText.visible = true
+
 		local enemies = entityList:GetEntities({type=LuaEntity.TYPE_HERO,team = 5-me.team,alive=true,visible=true,illusion=false})
 		for i,v in ipairs(enemies) do
 			local invis    = me:IsInvisible()
 
-			if GetDistance2D(v,me) <= 1000 and moc and moc:CanBeCasted() and activ and not invis and v.recentDamage > 0 then
-				me:SafeCastItem("item_medallion_of_courage",v)
+			if GetDistance2D(v,me) <= 800 and eth and eth:CanBeCasted() and activ and not invis then
+				me:SafeCastItem("item_ethereal_blade",v)
 				Sleep(500)
 				break
 			end
