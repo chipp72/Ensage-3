@@ -127,19 +127,17 @@ function SkillShot.BlindPrediction()
 				if t.visible then
 					SkillShot.BlindPredictionTable[t.handle].move = t.movespeed
 					SkillShot.BlindPredictionTable[t.handle].lastpos = t.position
+					SkillShot.BlindPredictionTable[t.handle].range = nil
 				end
-				local pos = SkillShot.BlindPredictionTable[t.handle].lastpos
-				if not t.visible and pos and SkillShot.BlindPredictionTable[t.handle].move then
+				if not t.visible and SkillShot.BlindPredictionTable[t.handle].lastpos and SkillShot.BlindPredictionTable[t.handle].move then
 					local rotR = SkillShot.BlindPredictionTable[t.handle].rotR local dist = SkillShot.BlindPredictionTable[t.handle].move/(SkillShot.BlindPredictionTable[t.handle].move/50) local speed = 1600
 					if not SkillShot.BlindPredictionTable[t.handle].range then
-						SkillShot.BlindPredictionTable[t.handle].range = Vector(pos.x + SkillShot.BlindPredictionTable[t.handle].move * (dist/(speed * math.sqrt(1 - math.pow(SkillShot.BlindPredictionTable[t.handle].move/speed,2)))) * math.cos(t.rotR), pos.y + SkillShot.BlindPredictionTable[t.handle].move * (dist/(speed * math.sqrt(1 - math.pow(SkillShot.BlindPredictionTable[t.handle].move/speed,2)))) * math.sin(t.rotR), pos.z)
+						SkillShot.BlindPredictionTable[t.handle].range = Vector(SkillShot.BlindPredictionTable[t.handle].lastpos.x + SkillShot.BlindPredictionTable[t.handle].move * (dist/(speed * math.sqrt(1 - math.pow(SkillShot.BlindPredictionTable[t.handle].move/speed,2)))) * math.cos(t.rotR), SkillShot.BlindPredictionTable[t.handle].lastpos.y + SkillShot.BlindPredictionTable[t.handle].move * (dist/(speed * math.sqrt(1 - math.pow(SkillShot.BlindPredictionTable[t.handle].move/speed,2)))) * math.sin(t.rotR), SkillShot.BlindPredictionTable[t.handle].lastpos.z)
 					else
 						if SkillShot.BlindPredictionTable[t.handle].range then
 							SkillShot.BlindPredictionTable[t.handle].range = Vector(SkillShot.BlindPredictionTable[t.handle].range.x + SkillShot.BlindPredictionTable[t.handle].move * (dist/(speed * math.sqrt(1 - math.pow(SkillShot.BlindPredictionTable[t.handle].move/speed,2)))) * math.cos(t.rotR), SkillShot.BlindPredictionTable[t.handle].range.y + SkillShot.BlindPredictionTable[t.handle].move * (dist/(speed * math.sqrt(1 - math.pow(SkillShot.BlindPredictionTable[t.handle].move/speed,2)))) * math.sin(t.rotR),SkillShot.BlindPredictionTable[t.handle].range.z)
 						end
-					end
-				else
-					SkillShot.BlindPredictionTable[t.handle].range = nil
+					end	
 				end
 			end
 		end
@@ -165,20 +163,17 @@ function SkillShot.__GetBlock(v1,v2,target,aoe,team)
 	end
 	local block = {}
 	local creeps = entityList:GetEntities({classId=CDOTA_BaseNPC_Creep_Lane,alive=true,team=enemyTeam,visible=true})
-	local siege = entityList:GetEntities({classId=CDOTA_BaseNPC_Creep_Siege,alive=true,team=enemyTeam,visible=true})
 	local forge = entityList:GetEntities({classId=CDOTA_BaseNPC_Invoker_Forged_Spirit,alive=true,team=enemyTeam,visible=true})
 	local hero = entityList:GetEntities({type=LuaEntity.TYPE_HERO,alive=true,team=enemyTeam,visible=true})
 	local neutrals = entityList:GetEntities({classId=CDOTA_BaseNPC_Creep_Neutral,alive=true,visible=true})
 	local golem = entityList:GetEntities({classId=CDOTA_BaseNPC_Warlock_Golem,alive=true,team=enemyTeam,visible=true})
 	if team then
 		creeps = entityList:GetEntities({classId=CDOTA_BaseNPC_Creep_Lane,alive=true,visible=true})
-		siege = entityList:GetEntities({classId=CDOTA_BaseNPC_Creep_Siege,alive=true,visible=true})
 		forge = entityList:GetEntities({classId=CDOTA_BaseNPC_Invoker_Forged_Spirit,alive=true,visible=true})
 		hero = entityList:GetEntities({type=LuaEntity.TYPE_HERO,alive=true,visible=true})
 		golem = entityList:GetEntities({classId=CDOTA_BaseNPC_Warlock_Golem,alive=true,visible=true})
 	end
 	for k,v in pairs(creeps) do block[#block + 1] = v end
-	for k,v in pairs(siege) do block[#block + 1] = v end
 	for k,v in pairs(forge) do block[#block + 1] = v end
 	for k,v in pairs(hero) do block[#block + 1] = v end
 	for k,v in pairs(golem) do block[#block + 1] = v end	
